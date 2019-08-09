@@ -3,11 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-//Copyright (c) 2018 ml5
-//
-// This software is released under the MIT License.
-// https://opensource.org/licenses/MIT
-
 /* ===
 ml5 Example
 PoseNet example using p5.js
@@ -17,19 +12,18 @@ let video;
 let poseNet;
 let poses = [];
 let canvas;
-//let imgbackground;
-let imageface;
+let imgbackground;
+//let imageface;
 let image1;
 let imageeye;
-//let imagelip;
-let imageroad;
-let imagepigeon;
-let imagesunset;
+let imagelip;
 //let imagecamera;
-//let imagearrow;
+let imagearrow;
+let imagescan;
 //let imageface;
-//let songOne, songTwo, songThree, songFour;
-//var isPlayingSong = false;
+let songOne, songTwo, songThree, songFour;
+let tone;
+var isPlayingSong = false;
 
 //for the circle
 //var x;
@@ -38,19 +32,19 @@ let imagesunset;
 //let noseY =0;
 
 
+
 function preload(){
-//imagebackground= loadImage('imagebackground.jpg');
+imagebackground= loadImage('imagebackground.jpg');
 //imagecamera = loadImage('imagecamera.png');
-//imagearrow = loadImage('imagearrow.png');
-imageroad= loadImage('imageroad.png');
-imagepigeon= loadImage('imagepigeon.png');
-imagesunset=loadImage('imagesunset.png');
+imagearrow = loadImage('imagearrow.png');
 image1 =loadImage('image1.jpg');
 imageeye= loadImage('imageeye.png');
-//songTwo=loadSound('songTwo.mp3');
+imagescan= loadImage('imagescan.png')
+songTwo=loadSound('songTwo.mp3');
 //imagelip = loadImage('imagelip.png');
 //imageface = loadImage('imageface.png');
-//songOne = loadSound('songOne.mp3');
+songOne = loadSound('songOne.mp3');
+tone = loadSound('tone.mp3');
 
 
 }
@@ -61,6 +55,7 @@ imageeye= loadImage('imageeye.png');
 function setup() {
   
 canvas = createCanvas(800, 640);
+
   canvas.position((windowWidth -width)/2, 100);
 
   video = createCapture(VIDEO);
@@ -81,10 +76,10 @@ canvas = createCanvas(800, 640);
 
 
   //for the moving circle
-  //x = 1;
-  //changeDirection = false;
+  // x = 1;
+  // changeDirection = false;
 
-  //songTwo.play();
+  // songTwo.play();
     
 }
 
@@ -95,8 +90,8 @@ function modelReady() {
 
 function draw() {
   image(video, 0, 0, width, height);
-  //filter(INVERT);
-  //image(,0,0, 600, 640);
+  image(imagebackground,0,0, 800, 640);
+  tint(255, 126);
 //fill(255);
   //image(imagecamera,0,0,100,100);
   //image(imagecamera,100,100,100,100);
@@ -104,15 +99,12 @@ function draw() {
   //image(imagecamera,100,0,100,100);
   //image(imageface,0,640,150,100);
   //image(imagearrow,270,300,100,100);
-  image(imageroad,270,300,300,300);
-  image(imagepigeon,0,0,200,200);
-  image(imagesunset,0,0,200,200);
   
 
   //try for the nose
    //triangle(noseX, noseY - 25, noseX - 30, noseY + 25, noseX + 30, noseY + 25);
 
-// //draw a moving circle
+//draw a moving circle
 //  fill(255);
 //  noStroke();
 //  stroke(255,20,147);
@@ -133,6 +125,20 @@ function draw() {
 //   //if x is greater than OR equal to 0, move right
 //   else if(changeDirection == true){
 //     x=x-1}
+
+
+
+
+
+//(0);
+//noFill(0);
+//rect(0,0,200,300);
+
+image(imagescan,0,0,300,300);
+
+
+ 
+
 
 
 
@@ -158,7 +164,27 @@ fill(255, 64);
 //     // in the circle
 //    songOne.play();
 //   }
+var d=int(dist(100,100,nose.x,nose.y));
+if(d < 100){
+  noFill();
+      stroke(0, 255, 0);
+    rect(nose.x, nose.y, 200, 200);
+    tone.play();
 
+  }
+ 
+
+translate(
+      (leftEar.x + rightEar.x) / 2,
+      (leftEar.y + rightEar.y) / 2);
+    let slope = (leftEar.y - rightEar.y) / 
+        (leftEar.x - rightEar.x);
+    rotate(atan(slope));
+    fill(0);
+
+    textAlign(CENTER, CENTER);
+    textSize((leftEar.x - rightEar.x) * 0.5);
+    text("$FACEPAY$", 0, 0);
 
 
 
@@ -209,8 +235,8 @@ function drawKeypoints()  {
 
     //image(image1,keypoint.position.x, keypoint.position.y, 25, 25);
     //image(image1,nosekeypoint.position.x, nosekeypoint.position.y, 25, 25
-      image(imageeye,rightearkeypoint.position.x, rightearkeypoint.position.y, 30, 30);
-       image(imageeye,leftearkeypoint.position.x, leftearkeypoint.position.y, 30, 30);
+      //image(imageeye,rightearkeypoint.position.x, rightearkeypoint.position.y, 30, 30);
+       //image(imageeye,leftearkeypoint.position.x, leftearkeypoint.position.y, 30, 30);
        //image(imagelip,nosekeypoint.position.x,(nosekeypoint.position.y+50),100, 100);
 //imgage(imgage1,30,30,30,30);
 //image1.position(keypoint.position.x, keypoint.position.y, 10, 10);
@@ -234,7 +260,7 @@ function drawSkeleton() {
       let partB = skeleton[j][1];
       strokeWeight(10);
       stroke(255,255,0);
-      line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
+      //line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
     }
   }
 
